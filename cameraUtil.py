@@ -2,31 +2,6 @@ import RPi.GPIO as gp
 import os
 import datetime
 
-def main():
-    # camera A
-    gp.output(7, False)
-    gp.output(11, False)
-    gp.output(12, True)
-    capture(1)
-
-    # # camera B
-    # gp.output(7, True)
-    # gp.output(11, False)
-    # gp.output(12, True)
-    # capture(2)
-
-    #camera C
-    gp.output(7, False)
-    gp.output(11, True)
-    gp.output(12, False)
-    capture(3)
-
-    # # camera D
-    # gp.output(7, True)
-    # gp.output(11, True)
-    # gp.output(12, False)
-    capture(4)
-
 # sets up GPIO pins
 def io_cam_setup():
     gp.setwarnings(False)
@@ -65,12 +40,27 @@ def capture(cam):
         gp.output(12, True)
     
 
-    cmd = "raspistill -o capture_%s.jpg" % cam
+    cmd = "raspistill -o capture_%s_%s.jpg" % timestring, cam
     os.system(cmd)
 
-if __name__ == "__main__":
-    main()
+def captureStereo():
+    now = datetime.datetime.now()
+    timestring = now.strftime("%Y-%m-%d__")
 
+    cam = "left"
+    # camera C
+    gp.output(7, False)
+    gp.output(11, True)
+    gp.output(12, False)
+
+    cmd = "raspistill -o img_%s_%s.jpg" % timestring, cam
+    os.system(cmd)
+
+    cam = "right"
+    # camera A
     gp.output(7, False)
     gp.output(11, False)
     gp.output(12, True)
+
+    cmd = "raspistill -o img_%s_%s.jpg" % timestring, cam
+    os.system(cmd)
