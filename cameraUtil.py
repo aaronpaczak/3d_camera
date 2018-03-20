@@ -28,7 +28,7 @@ def io_cam_setup():
 # Functionality: will configure the GPIO pins for the respective left and right cameras for capture
 def capture(cam):
     now = datetime.datetime.now()
-    timestring = now.strftime("%Y-%m-%d__")
+    timestring = now.strftime("%Y-%m-%d_%H:%M:%S_")
     if cam == "left":
         # camera C
         gp.output(7, False)
@@ -41,12 +41,12 @@ def capture(cam):
         gp.output(12, True)
     
 
-    cmd = "raspistill -o capture_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 100 -q 50 -o capture_%s_%s.jpg" % (timestring, cam)
     os.system(cmd)
 
 def captureStereo():
     now = datetime.datetime.now()
-    timestring = now.strftime("%Y-%m-%d__")
+    timestring = now.strftime("%Y-%m-%d_%H:%M:%S_")
 
     cam = "left"
     # camera C
@@ -54,7 +54,7 @@ def captureStereo():
     gp.output(11, True)
     gp.output(12, False)
 
-    cmd = "raspistill -o img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 100 -q 50 -o img_%s_%s.jpg" % (timestring, cam)
     os.system(cmd)
 
     cam = "right"
@@ -63,7 +63,7 @@ def captureStereo():
     gp.output(11, False)
     gp.output(12, True)
 
-    cmd = "raspistill -o img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 100 -q 50 -o img_%s_%s.jpg" % (timestring, cam)
     os.system(cmd)
 
 def getCalibMatrices():
