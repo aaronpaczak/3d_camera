@@ -9,7 +9,7 @@ GPIO.output(1,True)
 input = GPIO.input(17)
 
 while True:
-  if (GPIO.input(17)):
+  if (not GPIO.input(17)):
     print("Button Pressed")
 
 import time
