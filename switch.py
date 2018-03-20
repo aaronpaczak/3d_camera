@@ -1,11 +1,10 @@
 import RPi.GPIO as GPIO
-from cameraUtil import captureStereo
+from cameraUtil import captureStereo, io_cam_setup
 GPIO.setmode(GPIO.BOARD)
 
 GPIO.setup(13,GPIO.IN)
-GPIO.setup( 7,GPIO.OUT)
-GPIO.setup(11,GPIO.OUT)
-GPIO.setup(12,GPIO.OUT)
+io_cam_setup()
+
 
 import time
 #initialise a previous input variable to 0 (assume button not pressed last)
