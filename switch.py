@@ -3,12 +3,6 @@ GPIO.setmode(GPIO.BCM)
 
 GPIO.setup(17,GPIO.IN)
 
-input = GPIO.input(17)
-
-while True:
-  if (not GPIO.input(17)):
-    print("Button Pressed")
-
 import time
 #initialise a previous input variable to 0 (assume button not pressed last)
 prev_input = 0
