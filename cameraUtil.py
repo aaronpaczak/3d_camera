@@ -66,6 +66,27 @@ def captureStereo():
     cmd = "raspistill --vflip --hflip -t 100 -q 50 -o ./stereoimgs/img_%s_%s.jpg" % (timestring, cam)
     os.system(cmd)
 
+def calibStereo():
+    now = datetime.datetime.now()
+    timestring = now.strftime("%Y-%m-%d_%H:%M:%S_")
+
+    cam = "left"
+    # camera C
+    gp.output(7, False)
+    gp.output(11, True)
+    gp.output(12, False)
+
+    cmd = "raspistill --vflip --hflip -t 100 -q 50 -o ./calibration/left/img_%s_%s.jpg" % (timestring, cam)
+    os.system(cmd)
+
+    cam = "right"
+    # camera A
+    gp.output(7, False)
+    gp.output(11, False)
+    gp.output(12, True)
+
+    cmd = "raspistill --vflip --hflip -t 100 -q 50 -o ./calibration/right/img_%s_%s.jpg" % (timestring, cam)
+    os.system(cmd)
 def getCalibMatrices():
     calib_mats = np.load('./calibration/calib_mats.npz')
     return calib_mats
