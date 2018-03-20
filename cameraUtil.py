@@ -1,4 +1,5 @@
 import RPi.GPIO as gp
+import numpy as np
 import os
 import datetime
 
@@ -64,3 +65,8 @@ def captureStereo():
 
     cmd = "raspistill -o img_%s_%s.jpg" % timestring, cam
     os.system(cmd)
+
+def getCalibMatrices():
+    calib_mats = np.load('./calibration/calib_mats.npz')
+    return calib_mats
+
