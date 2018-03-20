@@ -54,7 +54,7 @@ def captureStereo():
     gp.output(11, True)
     gp.output(12, False)
 
-    cmd = "raspistill --vflip --hflip -t 100 -q 50 -o img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 100 -q 50 -o ./stereoimgs/img_%s_%s.jpg" % (timestring, cam)
     os.system(cmd)
 
     cam = "right"
@@ -63,7 +63,7 @@ def captureStereo():
     gp.output(11, False)
     gp.output(12, True)
 
-    cmd = "raspistill --vflip --hflip -t 100 -q 50 -o img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 100 -q 50 -o ./stereoimgs/img_%s_%s.jpg" % (timestring, cam)
     os.system(cmd)
 
 def getCalibMatrices():
