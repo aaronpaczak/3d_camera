@@ -3,6 +3,9 @@ from cameraUtil import captureStereo
 GPIO.setmode(GPIO.BOARD)
 
 GPIO.setup(13,GPIO.IN)
+GPIO.setup( 7, gp.OUT)
+GPIO.setup(11, gp.OUT)
+GPIO.setup(12, gp.OUT)
 
 import time
 #initialise a previous input variable to 0 (assume button not pressed last)
