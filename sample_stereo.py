@@ -39,9 +39,9 @@ if __name__ == '__main__':
 	imgR = cv.pyrDown( cv.imread('Right1.jpg') )
 
 	# disparity range is tuned for 'aloe' image pair
-	window_size = 3
-	min_disp = 16
-	num_disp = 112-min_disp
+	window_size = 5
+	min_disp = 11
+	num_disp = 48-min_disp
 	stereo = cv.StereoSGBM(minDisparity = min_disp,
 		numDisparities = num_disp,
 		P1 = 8*3*window_size**2,

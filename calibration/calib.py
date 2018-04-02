@@ -18,6 +18,7 @@ img_h, img_w, img_chan = img_l.shape
 calib = calibration.StereoCalibrator(rows=6, columns=8, square_size=2.5, image_size=(img_w,img_h))
 
 for i, img in enumerate(images_left):
+	print("image: " + str(images_left[i]))
 	img_l = cv2.imread(images_left[i])
 	img_r = cv2.imread(images_right[i])
 
