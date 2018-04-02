@@ -41,7 +41,7 @@ def capture(cam):
         gp.output(12, True)
     
 
-    cmd = "raspistill --vflip --hflip -t 100 --width 1920 --height 1080 -o capture_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 45 --width 1920 --height 1080 -o capture_%s_%s.jpg" % (timestring, cam)
     os.system(cmd)
 
 def captureStereo():
@@ -54,7 +54,7 @@ def captureStereo():
     gp.output(11, True)
     gp.output(12, False)
 
-    cmd = "raspistill --vflip --hflip -t 100 --width 1920 --height 1080 -o ./stereoimgs/img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 45 --width 1920 --height 1080 -o ./stereoimgs/img_%s_%s.jpg" % (timestring, cam)
     os.system(cmd)
 
     cam = "right"
@@ -63,7 +63,7 @@ def captureStereo():
     gp.output(11, False)
     gp.output(12, True)
 
-    cmd = "raspistill --vflip --hflip -t 100 --width 1920 --height 1080 -o ./stereoimgs/img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 45 --width 1920 --height 1080 -o ./stereoimgs/img_%s_%s.jpg" % (timestring, cam)
     os.system(cmd)
 
 def calibStereo():
@@ -76,7 +76,7 @@ def calibStereo():
     gp.output(11, True)
     gp.output(12, False)
 
-    cmd = "raspistill --vflip --hflip -t 100 --width 1920 --height 1080 -o ./calibration/left/img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 45 --width 1920 --height 1080 -o ./calibration/left/img_%s_%s.jpg" % (timestring, cam)
     os.system(cmd)
 
     cam = "right"
@@ -85,7 +85,7 @@ def calibStereo():
     gp.output(11, False)
     gp.output(12, True)
 
-    cmd = "raspistill --vflip --hflip -t 100 -width 1920 -height 1080 -o ./calibration/right/img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 45 --width 1920 --height 1080 -o ./calibration/right/img_%s_%s.jpg" % (timestring, cam)
     os.system(cmd)
 def getCalibMatrices():
     calib_mats = np.load('./calibration/calib_mats.npz')
