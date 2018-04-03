@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 from cameraUtil import captureStereo, io_cam_setup
+from Recon3DUtil import *
 GPIO.setmode(GPIO.BOARD)
 
 GPIO.setup(13,GPIO.IN)
@@ -16,6 +17,11 @@ while True:
   if ((not prev_input) and input):
     print("Button pressed")
     captureStereo()
+    imgLR = getNewestImages()
+    recLR = calibration_station(imgLR)
+    disparity = getDepthMapSGBM(recLR)
+    showResults(recLR, disparity)    
+
   #update previous input
   prev_input = input
   #slight pause to debounce
