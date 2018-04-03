@@ -9,7 +9,7 @@ def calibration_station(imglrtup):
 	newframes = calib.rectify(imglrtup)
 	return newframes
 
-def show_results(imgL, imgR, disparity):
+def show_results((imgL, imgR), disparity):
 	cv2.imshow(disparity)
 
 def depthMapSGBM(rectifiedImageTup):
