@@ -9,8 +9,16 @@ def calibration_station(imglrtup):
 	newframes = calib.rectify(imglrtup)
 	return newframes
 
-def show_results((imgL, imgR), disparity):
-	cv2.imshow(disparity)
+def show_results(imgL, imgR, disparity):
+	small_l = cv2.resize(imgL, (1200, 675))
+	small_r = cv2.resize(imgR, (1200, 675))
+	disp = cv2.resize(disparity, (1200, 675))
+	cv2.imshow("left", small_l)
+	cv2.waitKey(15000)
+	cv2.imshow("right", small_r)
+	cv2.waitKey(15000)
+	cv2.imshow("disparity", disp)
+	cv2.waitKey(15000)
 
 def depthMapSGBM(rectifiedImageTup):
 	(imgL, imgR) = rectifiedImageTup
@@ -39,3 +47,15 @@ def getNewestImages():
 	images_left.sort(reverse=True)
 	print("found images: " + str(images_right[0]) + ", " + str(images_left[0]))
 	return ( cv2.imread(images_left[0]), cv2.imread(images_right[0]) )
+
+def plot_results(imgL, imgR, disparity):
+	plt.subplot(2,2,1)
+	plt.imshow(imgL, 'gray')
+	plt.subplot(2,2,2)
+	plt.imshow(imgR, 'gray')
+	plt.subplot(2,2,3)
+	plt.imshow(disparity,'gray')
+	# blur = cv2.GaussianBlur(disparity,(25,25),0)
+	# plt.subplot(2,2,4)
+	# plt.imshow(blur,'gray')
+	plt.show()
