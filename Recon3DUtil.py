@@ -28,6 +28,7 @@ def depthMapSGBM(rectifiedImageTup):
 							  blockSize=5,
 							  P1=964,
 							  P2=2048,
+							  mode=3,
 							  uniquenessRatio=0,
 							  speckleWindowSize=0,
 							  speckleRange=0
