@@ -59,3 +59,6 @@ def plot_results(imgL, imgR, disparity):
 	# plt.subplot(2,2,4)
 	# plt.imshow(blur,'gray')
 	plt.show()
+
+def save_results(disparity):
+	cv2.imwrite("disparity.jpg", disparity)
