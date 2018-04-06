@@ -2,6 +2,7 @@ import cv2
 import numpy as numpy
 from stereovision import calibration
 import glob2 as glob
+from matplotlib import pyplot as plt
 import argparse
 
 def calibration_station(imglrtup):
