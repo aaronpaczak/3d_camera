@@ -20,7 +20,7 @@ while True:
     imgLR = getNewestImages()
     recLR = calibration_station(imgLR)
     disparity = getDepthMapSGBM(recLR)
-    showResults(recLR, disparity)    
+    showResults(recLR[0], recLR[1], disparity)    
 
   #update previous input
   prev_input = input
