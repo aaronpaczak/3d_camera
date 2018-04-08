@@ -19,7 +19,7 @@ def calibration_station(imglrtup):
 	newframes = calib.rectify(imglrtup)
 	return newframes
 
-def plot_results(imgL, imgR, disparity):
+def plot_results(imgL, imgR, disparity, mode):
 	plt.subplot(2,2,1)
 	plt.imshow(imgL, 'gray')
 	plt.subplot(2,2,2)
@@ -29,13 +29,14 @@ def plot_results(imgL, imgR, disparity):
 	blur = cv2.GaussianBlur(disparity,(25,25),0)
 	plt.subplot(2,2,4)
 	plt.imshow(blur,'gray')
+	plt.suptitle("Mode_" + str(mode), fontsize=16)
 	plt.show()
 
 def main():
 	# Load images
-	imgL = cv2.imread('Left1.jpg',0)
-	imgR = cv2.imread('Right1.jpg',0)
-	(imgL, imgR) = calibration_station((imgL, imgR))
+	imgL = cv2.imread('Left1.jpeg',0)
+	imgR = cv2.imread('Right1.jpeg',0)
+	# (imgL, imgR) = calibration_station((imgL, imgR))
 	# Apply calibration matricies
 	# dict_of_matricies = np.load('./calibration/calib_mats.npz')
 	# imgL = calibration_station(imgL, dict_of_matricies['intrinsic_mtx_l'], dict_of_matricies['dist_l'])
@@ -58,20 +59,21 @@ def main():
     # points = camera_pair.get_point_cloud(rectified_pair)
     # points = points.filter_infinity()
     # points.write_ply('outpc.ply')
-	
-	stereo = cv2.StereoSGBM_create(minDisparity=0,
-							  numDisparities=64, 
-							  blockSize=5,
-							  P1=964,
-							  P2=2048,
-							  uniquenessRatio=0,
-							  speckleWindowSize=0,
-							  speckleRange=0
-							  )
-	disparity = stereo.compute(imgL, imgR)
+	for mode in range(0,4):
+		stereo = cv2.StereoSGBM_create(minDisparity=0,
+								  numDisparities=64, 
+								  blockSize=5,
+								  P1=964,
+								  P2=2048,
+								  uniquenessRatio=0,
+								  speckleWindowSize=0,
+								  speckleRange=0,
+								  mode=mode
+								  )
+		disparity = stereo.compute(imgL, imgR)
 
-	# Plot results
-	plot_results(imgL, imgR, disparity)
+		# Plot results
+		plot_results(imgL, imgR, disparity, mode)
 
 if __name__ == '__main__':
 	main()

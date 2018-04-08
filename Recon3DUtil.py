@@ -23,6 +23,8 @@ def show_results(imgL, imgR, disparity):
 
 def depthMapSGBM(rectifiedImageTup):
 	(imgL, imgR) = rectifiedImageTup
+	imgL = cv2.resize(imgL, (320, 180)) 
+	imgR = cv2.resize(imgR, (320, 180)) 
 	stereo = cv2.StereoSGBM_create(minDisparity=0,
 							  numDisparities=64, 
 							  blockSize=5,
