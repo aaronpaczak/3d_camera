@@ -120,6 +120,3 @@ def captureDSLR(timestring):
     gp2.check_result(gp2.gp_file_save(camera_file, target))
     subprocess.call(['xdg-open', target])
     gp2.check_result(gp2.gp_camera_exit(camera))
-
-
-
