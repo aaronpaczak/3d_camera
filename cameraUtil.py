@@ -46,12 +46,13 @@ def capture(cam):
         gp.output(11, False)
         gp.output(12, True)
     
+    print("This function is deprecated and not applicable -- do not use.\n Use captureStereo or calibStereo to capture images and images for calibration repectively")
 
-    cmd = "raspistill --vflip --hflip -t 45 --width 1920 --height 1080 -o capture_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 45 --width 1920 --height 1080 -o capture_%s_%s.jpg" % ( timestring, cam)
     os.system(cmd)
     return timestring
 
-def captureStereo(width, height):
+def captureStereo(width=640, height=360):
     now = datetime.datetime.now()
     timestring = now.strftime("%Y-%m-%d_%H:%M:%S_")
 
@@ -61,7 +62,7 @@ def captureStereo(width, height):
     gp.output(11, True)
     gp.output(12, False)
 
-    cmd = "raspistill --vflip --hflip -t 45 --width 640 --height 360 -o ./stereoimgs/img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 45 --width %s --height %s -o ./stereoimgs/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
     os.system(cmd)
 
     cam = "right"
@@ -70,11 +71,11 @@ def captureStereo(width, height):
     gp.output(11, False)
     gp.output(12, True)
 
-    cmd = "raspistill --vflip --hflip -t 45 --width 640 --height 360 -o ./stereoimgs/img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 45 --width %s --height %s -o ./stereoimgs/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height), timestring, cam)
     os.system(cmd)
     return timestring
 
-def calibStereo(width, height):
+def calibStereo(width=640, height=360):
     now = datetime.datetime.now()
     timestring = now.strftime("%Y-%m-%d_%H:%M:%S_")
 
@@ -84,7 +85,7 @@ def calibStereo(width, height):
     gp.output(11, True)
     gp.output(12, False)
 
-    cmd = "raspistill --vflip --hflip -t 45 --width 640 --height 360 -o ./calibration/left/img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 45 --width %s --height %s -o ./calibration/left/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
     os.system(cmd)
 
     cam = "right"
@@ -93,7 +94,7 @@ def calibStereo(width, height):
     gp.output(11, False)
     gp.output(12, True)
 
-    cmd = "raspistill --vflip --hflip -t 45 --width 640 --height 360 -o ./calibration/right/img_%s_%s.jpg" % (timestring, cam)
+    cmd = "raspistill --vflip --hflip -t 45 --width %s --height %s -o ./calibration/right/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
     os.system(cmd)
     return timestring
 
