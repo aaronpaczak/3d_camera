@@ -66,3 +66,14 @@ def plot_results(imgL, imgR, disparity):
 
 def save_results(disparity):
 	cv2.imwrite("disparity.jpg", disparity)
+
+
+def getDSLRImage(timestring):
+    dslr_images = glob.glob('./dslrimages/*.jpg')
+    match = None
+    for i in dslr_images:
+    	if timestring in i:
+    		match = i
+    image = cv2.imread(match)
+    return image
+    
