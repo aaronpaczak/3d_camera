@@ -62,7 +62,7 @@ def captureStereo(width=640, height=360):
     gp.output(11, True)
     gp.output(12, False)
 
-    cmd = "raspistill --vflip --hflip -t 45 --width %s --height %s -o ./stereoimgs/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
+    cmd = "raspistill --vflip --hflip --awb off -t 45 --width %s --height %s -o ./stereoimgs/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
     os.system(cmd)
 
     cam = "right"
@@ -71,7 +71,7 @@ def captureStereo(width=640, height=360):
     gp.output(11, False)
     gp.output(12, True)
 
-    cmd = "raspistill --vflip --hflip -t 45 --width %s --height %s -o ./stereoimgs/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height), timestring, cam)
+    cmd = "raspistill --vflip --hflip --awb off -t 45 --width %s --height %s -o ./stereoimgs/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height), timestring, cam)
     os.system(cmd)
     return timestring
 
@@ -85,7 +85,7 @@ def calibStereo(width=640, height=360):
     gp.output(11, True)
     gp.output(12, False)
 
-    cmd = "raspistill --vflip --hflip -t 45 --width %s --height %s -o ./calibration/left/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
+    cmd = "raspistill --vflip --hflip --awb off -t 45 --width %s --height %s -o ./calibration/left/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
     os.system(cmd)
 
     cam = "right"
@@ -94,7 +94,7 @@ def calibStereo(width=640, height=360):
     gp.output(11, False)
     gp.output(12, True)
 
-    cmd = "raspistill --vflip --hflip -t 45 --width %s --height %s -o ./calibration/right/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
+    cmd = "raspistill --vflip --hflip --awb off -t 45 --width %s --height %s -o ./calibration/right/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
     os.system(cmd)
     return timestring
 
