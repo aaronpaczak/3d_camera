@@ -6,8 +6,10 @@ from matplotlib import pyplot as plt
 import argparse
 
 def calibration_station(imglrtup):
+	img_l = cv2.resize(imglrtup[0], (800, 450))
+	img_r = cv2.resize(imglrtup[1], (800, 450))
 	calib = calibration.StereoCalibration(input_folder='./calibration/calibfile/')
-	newframes = calib.rectify(imglrtup)
+	newframes = calib.rectify((img_l, img_r))
 	return newframes
 
 def show_results(imgL, imgR, disparity):
@@ -53,20 +55,24 @@ def getNewestImages():
 	return ( cv2.imread(images_left[0]), cv2.imread(images_right[0]) )
 
 def plot_results(imgL, imgR, disparity):
+	# disparity = cv2.cvtColor(disp)
 	plt.subplot(2,2,1)
 	plt.imshow(imgL, 'gray')
 	plt.subplot(2,2,2)
+	print(imgR.shape)
 	plt.imshow(imgR, 'gray')
 	plt.subplot(2,2,3)
 	plt.imshow(disparity,'gray')
-	# blur = cv2.GaussianBlur(disparity,(25,25),0)
+	print(disparity.shape)
+	# blur = cv2.cvtColor(disparity, cv2.COLOR_BGR2RGB)
 	# plt.subplot(2,2,4)
 	# plt.imshow(blur,'gray')
 	plt.show()
 
 def save_results(disparity):
-	cv2.imwrite("disparity.jpg", disparity)
-
+	# disp = cv2.cvtColor(disparity, cv2.COLOR_BGR2RGB)
+	# cv2.imwrite("disparity.png", disp)
+	plt.imsave('disparity.png', disparity, cmap='gray')
 
 def getDSLRImage(timestring):
     dslr_images = glob.glob('./dslrimages/*.jpg')

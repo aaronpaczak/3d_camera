@@ -21,7 +21,9 @@ calib = calibration.StereoCalibrator(rows=6, columns=8, square_size=2.5, image_s
 for i, img in enumerate(images_left):
     print("image: " + str(images_left[i]))
     img_l = cv2.imread(images_left[i])
+    img_l = cv2.resize(img_l, (800, 450))
     img_r = cv2.imread(images_right[i])
+    img_r = cv2.resize(img_r, (800, 450))
     try:
        calib.add_corners((img_l, img_r))
     except:
