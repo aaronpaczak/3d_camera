@@ -16,11 +16,11 @@ while True:
   #if the last reading was low and this one high, print
   if ((not prev_input) and input):
     print("Button pressed")
-    captureStereo()
-    imgLR = getNewestImages()
-    recLR = calibration_station(imgLR)
-    disparity = getDepthMapSGBM(recLR)
-    showResults(recLR[0], recLR[1], disparity)    
+    #captureStereo(1920,1080)
+    #imgLR = getNewestImages()
+    #recLR = calibration_station(imgLR)
+    #disparity = getDepthMapSGBM(recLR)
+    #showResults(recLR[0], recLR[1], disparity)    
 
   #update previous input
   prev_input = input
