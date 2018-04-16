@@ -1,3 +1,6 @@
+## this file holds the functions for capturing the images used in 3D reconstruction and camera calibration
+## it also contains a method for capturing an image on an attached dslr camera and saving it onto the pi
+
 import RPi.GPIO as gp
 import numpy as np
 import os
@@ -32,37 +35,23 @@ def io_cam_setup():
 
 # Input: string "left" or "right"
 # Functionality: will configure the GPIO pins for the respective left and right cameras for capture
-def capture(cam):
+# width and height specify the size of the images taken, which will be shown in their path names
+# the folder_path is where the images will be saved
+# the lr_folders parameter specifies whether the left and right images are in seperate or the same folders
+def capture(width=640, height=360, folder_path='.', lr_folders=False):
     now = datetime.datetime.now()
     timestring = now.strftime("%Y-%m-%d_%H:%M:%S_")
-    if cam == "left":
-        # camera C
-        gp.output(7, False)
-        gp.output(11, True)
-        gp.output(12, False)
-    elif cam == "right":
-        # camera A
-        gp.output(7, False)
-        gp.output(11, False)
-        gp.output(12, True)
-    
-    print("This function is deprecated and not applicable -- do not use.\n Use captureStereo or calibStereo to capture images and images for calibration repectively")
-
-    cmd = "raspistill --vflip --hflip -t 45 --width 1920 --height 1080 -o capture_%s_%s.jpg" % ( timestring, cam)
-    os.system(cmd)
-    return timestring
-
-def captureStereo(width=640, height=360):
-    now = datetime.datetime.now()
-    timestring = now.strftime("%Y-%m-%d_%H:%M:%S_")
-
+    cam_time = 2
     cam = "left"
     # camera C
     gp.output(7, False)
     gp.output(11, True)
     gp.output(12, False)
+    if lr_folders:
+        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/left/img%sx%s_%s_%s.jpg" % ( str(cam_time), str(width), str(height), str(width), str(height), folder_path, timestring, cam)
+    else:
+        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/img%sx%s_%s_%s.jpg" % (str(cam_time), str(width), str(height), str(width), str(height), folder_path, timestring, cam)
 
-    cmd = "raspistill --vflip --hflip --awb fluorescent -t 45 --width %s --height %s -o ./stereoimgs/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
     os.system(cmd)
 
     cam = "right"
@@ -70,38 +59,19 @@ def captureStereo(width=640, height=360):
     gp.output(7, False)
     gp.output(11, False)
     gp.output(12, True)
-
-    cmd = "raspistill --vflip --hflip --awb fluorescent -t 45 --width %s --height %s -o ./stereoimgs/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height), timestring, cam)
+    if lr_folders:
+        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/right/img%sx%s_%s_%s.jpg" % ( str(cam_time), str(width), str(height), str(width), str(height), folder_path, timestring, cam)
+    else:
+        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/img%sx%s_%s_%s.jpg" % (str(cam_time), str(width), str(height), str(width), folder_path, str(height), timestring, cam)
     os.system(cmd)
     return timestring
+## this captures images into the stereoimgs folder
+## right now the capture method just supports
+def captureStereo(width=640, height=360):
+    return capture(width=width, height=height, folder_path='./stereoimgs')
 
 def calibStereo(width=640, height=360):
-    now = datetime.datetime.now()
-    timestring = now.strftime("%Y-%m-%d_%H:%M:%S_")
-
-    cam = "left"
-    # camera C
-    gp.output(7, False)
-    gp.output(11, True)
-    gp.output(12, False)
-
-    cmd = "raspistill --vflip --hflip --awb fluorescent -t 45 --width %s --height %s -o ./calibration/left/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
-    os.system(cmd)
-
-    cam = "right"
-    # camera A
-    gp.output(7, False)
-    gp.output(11, False)
-    gp.output(12, True)
-
-    cmd = "raspistill --vflip --hflip --awb fluorescent -t 45 --width %s --height %s -o ./calibration/right/img%sx%s_%s_%s.jpg" % (str(width), str(height), str(width), str(height),timestring, cam)
-    os.system(cmd)
-    return timestring
-
-
-def getCalibMatrices():
-    calib_mats = np.load('./calibration/calib_mats.npz')
-    return calib_mats
+    return capture(width=width, height=height, folder_path='./calibration', lr_folders=True)
 
 def captureDSLR(timestring):
     # The timestring needs to be modified to include .jpg
