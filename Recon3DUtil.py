@@ -1,3 +1,7 @@
+'''
+	This utility holds all of the functions for reading, rectifing and producing the 3D reconstruciton depth maps 
+'''
+
 import cv2
 import numpy as numpy
 from stereovision import calibration
@@ -5,11 +9,13 @@ import glob2 as glob
 from matplotlib import pyplot as plt
 import argparse
 
+# takes a (left, right) image tuple and outputs the rectified (left, right) image tuple given the folder
+# note that it resizes the images to (800, 450) for rectification
 def calibration_station(imglrtup):
-	img_l = cv2.resize(imglrtup[0], (800, 450))
-	img_r = cv2.resize(imglrtup[1], (800, 450))
+	# img_l = cv2.resize(imglrtup[0], (800, 450))
+	# img_r = cv2.resize(imglrtup[1], (800, 450))
 	calib = calibration.StereoCalibration(input_folder='./calibration/calibfile/')
-	newframes = calib.rectify((img_l, img_r))
+	newframes = calib.rectify(imglrtup)
 	return newframes
 
 def show_results(imgL, imgR, disparity):
@@ -51,6 +57,8 @@ def getNewestImages():
 	# assumes that both directories have a matching image	
 	images_right.sort(reverse=True)
 	images_left.sort(reverse=True)
+	print(images_right)
+	print(images_left)
 	print("found images: " + str(images_right[0]) + ", " + str(images_left[0]))
 	return ( cv2.imread(images_left[0]), cv2.imread(images_right[0]) )
 

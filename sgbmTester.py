@@ -6,5 +6,5 @@ from Recon3DUtil import *
 images = getNewestImages()
 recImages = calibration_station(images)
 disp = depthMapSGBM(images)
-# plot_results(recImages[0], recImages[1], disp)
-save_results(disp)
+plot_results(recImages[0], recImages[1], disp)
+# save_results(disp)

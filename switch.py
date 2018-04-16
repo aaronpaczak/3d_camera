@@ -1,6 +1,8 @@
 import RPi.GPIO as GPIO
-from cameraUtil import captureStereo, io_cam_setup
+from cameraUtil import *
 from Recon3DUtil import *
+
+
 GPIO.setmode(GPIO.BOARD)
 
 GPIO.setup(13,GPIO.IN)
