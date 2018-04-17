@@ -48,9 +48,9 @@ def capture(width=640, height=360, folder_path='.', lr_folders=False):
     gp.output(11, True)
     gp.output(12, False)
     if lr_folders:
-        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/left/img%sx%s_%s_%s.jpg" % ( str(cam_time), str(width), str(height), str(width), str(height), folder_path, timestring, cam)
+        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/left/img%sx%s_%s_%s.jpg" % ( str(cam_time), str(width), str(height), folder_path, str(width), str(height),  timestring, cam)
     else:
-        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/img%sx%s_%s_%s.jpg" % (str(cam_time), str(width), str(height), str(width), str(height), folder_path, timestring, cam)
+        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/img%sx%s_%s_%s.jpg" % (str(cam_time), str(width), str(height), folder_path, str(width), str(height),  timestring, cam)
 
     os.system(cmd)
 
@@ -60,9 +60,9 @@ def capture(width=640, height=360, folder_path='.', lr_folders=False):
     gp.output(11, False)
     gp.output(12, True)
     if lr_folders:
-        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/right/img%sx%s_%s_%s.jpg" % ( str(cam_time), str(width), str(height), str(width), str(height), folder_path, timestring, cam)
+        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/right/img%sx%s_%s_%s.jpg" % ( str(cam_time), str(width), str(height), folder_path, str(width), str(height), timestring, cam)
     else:
-        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/img%sx%s_%s_%s.jpg" % (str(cam_time), str(width), str(height), str(width), folder_path, str(height), timestring, cam)
+        cmd = "raspistill --vflip --hflip --awb fluorescent -t %s --width %s --height %s -o %s/img%sx%s_%s_%s.jpg" % (str(cam_time), str(width), str(height), folder_path, str(width), str(height), timestring, cam)
     os.system(cmd)
     return timestring
 ## this captures images into the stereoimgs folder
