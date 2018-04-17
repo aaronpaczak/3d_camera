@@ -18,21 +18,28 @@ def calibration_station(imglrtup):
 	newframes = calib.rectify(imglrtup)
 	return newframes
 
-def show_results(imgL, imgR, disparity):
-	small_l = cv2.resize(imgL, (1200, 675))
-	small_r = cv2.resize(imgR, (1200, 675))
-	disp = cv2.resize(disparity, (1200, 675))
-	cv2.imshow("left", small_l)
+## this uses matplot lib to show the resultant images
+# Note: that it resizes the images to 1200, 675
+def show_results(imgL, imgR, disparity, resize_width=0, resize_height=0):
+	if resize_width > 0 and resize_height:
+		imgL = cv2.resize(imgL, (resize_width, resize_height))
+		imgR = cv2.resize(imgR, (resize_width, resize_height))
+		disparity = cv2.resize(disparity, (resize_width, resize_height))
+	cv2.imshow("left", imgL)
 	cv2.waitKey(15000)
-	cv2.imshow("right", small_r)
+	cv2.imshow("right", imgR)
 	cv2.waitKey(15000)
-	cv2.imshow("disparity", disp)
+	cv2.imshow("disparity", disparity)
 	cv2.waitKey(15000)
 
-def depthMapSGBM(rectifiedImageTup):
+
+## Acquires depth map given the (left, right) image tuple
+def depth_map_sgbm(rectifiedImageTup, resize_width=0, resize_height=0):
 	(imgL, imgR) = rectifiedImageTup
-	imgL = cv2.resize(imgL, (320, 180)) 
-	imgR = cv2.resize(imgR, (320, 180)) 
+	if resize_width > 0 and resize_height > 0:
+		imgL = cv2.resize(imgL, (resize_width, resize_height)) 
+		imgR = cv2.resize(imgR, (resize_width, resize_height))
+
 	stereo = cv2.StereoSGBM_create(minDisparity=0,
 							  numDisparities=64, 
 							  blockSize=5,
@@ -48,7 +55,10 @@ def depthMapSGBM(rectifiedImageTup):
 
 
 # returns a left,right tuple of read image arrays
-def getNewestImages():
+def get_newest_images():
+	return get_images_by_index(0)
+
+def get_images_by_index(index):
 	images_right = glob.glob('./stereoimgs/*right.jpg')
 	# print(images_right)
 	images_left = glob.glob('./stereoimgs/*left.jpg')
@@ -59,8 +69,12 @@ def getNewestImages():
 	images_left.sort(reverse=True)
 	print(images_right)
 	print(images_left)
-	print("found images: " + str(images_right[0]) + ", " + str(images_left[0]))
-	return ( cv2.imread(images_left[0]), cv2.imread(images_right[0]) )
+	if index > len(images_right) or len(images_left) != len(images_right):
+		print('your index is out of range or there is a different amount of right and left images')
+		return None
+
+	print("found images: " + str(images_right[index]) + ", " + str(images_left[index]))
+	return ( cv2.imread(images_left[index]), cv2.imread(images_right[index]) )
 
 def plot_results(imgL, imgR, disparity):
 	# disparity = cv2.cvtColor(disp)
@@ -82,7 +96,7 @@ def save_results(disparity):
 	# cv2.imwrite("disparity.png", disp)
 	plt.imsave('disparity.png', disparity, cmap='gray')
 
-def getDSLRImage(timestring):
+def get_dslr_image(timestring):
     dslr_images = glob.glob('./dslrimages/*.jpg')
     match = None
     for i in dslr_images:
