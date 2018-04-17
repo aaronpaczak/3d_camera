@@ -42,6 +42,7 @@ def depth_map_sgbm(rectifiedImageTup, resize_width=0, resize_height=0):
 
 	# 640 x 360 p
 	mode = 0
+	min_disparity = 30
 	num_disparities = 64
 	blocksize = 17
 	P1 = 8 * blocksize * blocksize
