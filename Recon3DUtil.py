@@ -112,10 +112,10 @@ def plot_results(imgL, imgR, disparity):
 	# plt.imshow(blur,'gray')
 	plt.show()
 
-def save_results(disparity):
+def save_results(disparity, filename='disp', path='./disparity_imgs'):
 	# disp = cv2.cvtColor(disparity, cv2.COLOR_BGR2RGB)
 	# cv2.imwrite("disparity.png", disp)
-	plt.imsave('disparity.png', disparity, cmap='gray')
+	plt.imsave(path + '/' + filename + '.png', disparity, cmap='gray')
 
 def get_dslr_image(timestring):
     dslr_images = glob.glob('./dslrimages/*.jpg')
