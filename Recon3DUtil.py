@@ -40,15 +40,36 @@ def depth_map_sgbm(rectifiedImageTup, resize_width=0, resize_height=0):
 		imgL = cv2.resize(imgL, (resize_width, resize_height)) 
 		imgR = cv2.resize(imgR, (resize_width, resize_height))
 
-	stereo = cv2.StereoSGBM_create(minDisparity=0,
-							  numDisparities=64, 
-							  blockSize=5,
-							  P1=964,
-							  P2=2048,
-							  mode=3,
-							  uniquenessRatio=0,
-							  speckleWindowSize=0,
-							  speckleRange=0
+	# 640 x 360 p
+	mode = 0
+	num_disparities = 64
+	blocksize = 17
+	P1 = 8 * blocksize * blocksize
+	P2 = 32 * blocksize * blocksize
+	unique = 5
+	speckleWS = 50
+	speckle_range = 2
+
+	# # 1920 x 1080 p
+	# mode = 3
+	# num_disparities = 240
+	# blocksize = 11
+	# P1 = 8 * blocksize * blocksize
+	# P2 = 32 * blocksize * blocksize
+	# unique = 5
+	# speckleWS = 100
+	# speckle_range = 2
+
+	# Calc the disparity
+	stereo = cv2.StereoSGBM_create(minDisparity=min_disparity,
+							  numDisparities=num_disparities, 
+							  blockSize=blocksize,
+							  P1=P1,
+							  P2=P2,
+							  uniquenessRatio=unique,
+							  speckleWindowSize=speckleWS,
+							  speckleRange=speckle_range,
+							  mode=mode
 							  )
 	disparity = stereo.compute(imgL, imgR)
 	return disparity
@@ -104,4 +125,3 @@ def get_dslr_image(timestring):
     		match = i
     image = cv2.imread(match)
     return image
-    
