@@ -13,6 +13,7 @@ import numpy as np
 import cv2
 import csv
 from matplotlib import pyplot as plt
+from argparse import ArgumentParser
 
 def calibration_station(imglrtup):
 	calib = calibration.StereoCalibration(input_folder='./calibration/calibfile/')
@@ -33,47 +34,61 @@ def plot_results(imgL, imgR, disparity, mode):
 	plt.show()
 
 def main():
-	# Load images
-	imgL = cv2.imread('Left1.jpeg',0)
-	imgR = cv2.imread('Right1.jpeg',0)
+
+	parser = ArgumentParser(description="Yo this is just a sample sgbm program.")
+	parser.add_argument("image_folder",
+						help="Directory where input images are stored.")
+	parser.add_argument("im_size", help="1 for small, 2 for large")
+	args = parser.parse_args()
+	
+
+
+	imgL = cv2.imread(args.image_folder + 'left.jpg',0)
+	imgR = cv2.imread(args.image_folder + 'right.jpg',0)
+
 	# (imgL, imgR) = calibration_station((imgL, imgR))
-	# Apply calibration matricies
-	# dict_of_matricies = np.load('./calibration/calib_mats.npz')
-	# imgL = calibration_station(imgL, dict_of_matricies['intrinsic_mtx_l'], dict_of_matricies['dist_l'])
-	# imgR = calibration_station(imgR, dict_of_matricies['intrinsic_mtx_r'], dict_of_matricies['dist_r'])
 
-	# with open('dict.csv', 'w') as csv_file:
-	# 	writer = csv.writer(csv_file)
-	# 	for key, value in dict_of_matricies.items():
-	# 		writer.writerow([key, value])
+	if args.im_size == "1":
+		imgL = cv2.resize(imgL, (640,360))
+		imgR = cv2.resize(imgR, (640,360))
 
-	# Get stereoSGBM Map
+		# 640 x 360 p
+		mode = 0
+		min_disparity = 30
+		num_disparities = 64
+		blocksize = 17
+		P1 = 8 * blocksize * blocksize
+		P2 = 32 * blocksize * blocksize
+		unique = 5
+		speckleWS = 50
+		speckle_range = 2
+	else:
+		# # 1920 x 1080 p
+		mode = 3
+		min_disparity = 32
+		num_disparities = 240
+		blocksize = 11
+		P1 = 8 * blocksize * blocksize
+		P2 = 32 * blocksize * blocksize
+		unique = 5
+		speckleWS = 100
+		speckle_range = 2
 
-    # block_matcher = StereoSGBM()
-    
-     
-    # camera_pair = CalibratedPair(None,
-    #                             StereoCalibration(input_folder='./calibration/calibfile/'),
-    #                             block_matcher)
-    # rectified_pair = camera_pair.calibration.rectify(image_pair)
-    # points = camera_pair.get_point_cloud(rectified_pair)
-    # points = points.filter_infinity()
-    # points.write_ply('outpc.ply')
-	for mode in range(0,4):
-		stereo = cv2.StereoSGBM_create(minDisparity=0,
-								  numDisparities=64, 
-								  blockSize=5,
-								  P1=964,
-								  P2=2048,
-								  uniquenessRatio=0,
-								  speckleWindowSize=0,
-								  speckleRange=0,
-								  mode=mode
-								  )
-		disparity = stereo.compute(imgL, imgR)
+	# Calc the disparity
+	stereo = cv2.StereoSGBM_create(minDisparity=min_disparity,
+							  numDisparities=num_disparities, 
+							  blockSize=blocksize,
+							  P1=P1,
+							  P2=P2,
+							  uniquenessRatio=unique,
+							  speckleWindowSize=speckleWS,
+							  speckleRange=speckle_range,
+							  mode=mode
+							  )
+	disparity = stereo.compute(imgL, imgR)
 
-		# Plot results
-		plot_results(imgL, imgR, disparity, mode)
+	plt.imshow(disparity, 'gray')
+	plt.show()
 
 if __name__ == '__main__':
 	main()
