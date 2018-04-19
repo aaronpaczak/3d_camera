@@ -41,25 +41,26 @@ def depth_map_sgbm(rectifiedImageTup, resize_width=0, resize_height=0):
 		imgR = cv2.resize(imgR, (resize_width, resize_height))
 
 	# 640 x 360 p
-	mode = 0
-	min_disparity = 30
-	num_disparities = 64
-	blocksize = 17
-	P1 = 8 * blocksize * blocksize
-	P2 = 32 * blocksize * blocksize
-	unique = 5
-	speckleWS = 50
-	speckle_range = 2
-
-	# # 1920 x 1080 p
-	# mode = 3
-	# num_disparities = 240
-	# blocksize = 11
+	# mode = 0
+	# min_disparity = 30
+	# num_disparities = 64
+	# blocksize = 17
 	# P1 = 8 * blocksize * blocksize
 	# P2 = 32 * blocksize * blocksize
 	# unique = 5
-	# speckleWS = 100
+	# speckleWS = 50
 	# speckle_range = 2
+
+	# # 1920 x 1080 p
+	mode = 3
+	min_disparity = 32
+	num_disparities = 240
+	blocksize = 11
+	P1 = 8 * blocksize * blocksize
+	P2 = 32 * blocksize * blocksize
+	unique = 5
+	speckleWS = 100
+	speckle_range = 2
 
 	# Calc the disparity
 	stereo = cv2.StereoSGBM_create(minDisparity=min_disparity,
@@ -97,6 +98,17 @@ def get_images_by_index(index):
 
 	print("found images: " + str(images_right[index]) + ", " + str(images_left[index]))
 	return ( cv2.imread(images_left[index]), cv2.imread(images_right[index]) )
+
+def get_images():
+	images_right = glob.glob('./stereoimgs/*right.jpg')
+	# print(images_right)
+	images_left = glob.glob('./stereoimgs/*left.jpg')
+	if images_right is [] or images_left is []:
+		return None
+	# assumes that both directories have a matching image	
+	images_right.sort(reverse=True)
+	images_left.sort(reverse=True)
+	return images_right
 
 def plot_results(imgL, imgR, disparity):
 	# disparity = cv2.cvtColor(disp)
