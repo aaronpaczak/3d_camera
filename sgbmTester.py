@@ -22,8 +22,8 @@ if input("Rectify images? [y/n] \n") == 'y':
 
 print("getting depth map...")
 disp = depth_map_sgbm(images_for_disparity)
-
-plot_results(images_for_disparity[0], images_for_disparity[1], disp)
+if input("Show results?: [y/n] \n"):
+    plot_results(images_for_disparity[0], images_for_disparity[1], disp)
 
 if input("Save file? [y/n] \n") == 'y':
     filename = input("filename: ")

@@ -28,6 +28,12 @@ This project was done as a Senior Design Project for Electrical & Computer Engin
  - `raspberry-gpio-python` (we needed this for compatibility with the Arducam multi-camera adapter)
  - What we should've used was probably the `picamera` pip package
 
+## Improvements for this repository:
+ - We Should've had better calibration images for the Pi
+ - Should've used a better checkerboard print for calibration
+ - Can't control camera parameters as we would like to using the pi cameras
+ - Can't take images simulataneously on the Pi due to arducam setup
+ - 
 
 ## TODO
  - put in pictures of our hardware setup
